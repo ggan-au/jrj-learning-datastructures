@@ -1,12 +1,11 @@
 package adt;
 
 public class Counter {
-    int counter;
-    String name;
+    private int counter = 0;
+    private String name = null;
 
     public Counter (String name) {
         this.name = name;
-        this.counter = 0;
     }
 
     public void increment() {
@@ -19,6 +18,6 @@ public class Counter {
 
     @Override
     public String toString() {
-        return this.name + " : " + this.counter;
+        return this.name + ": " + this.counter;
     }
 }
