@@ -111,7 +111,7 @@ public class DoublyLinkedList {
     }
 
     public void displayForward() {
-        System.out.println("List (first --> last): ");
+        System.out.print("List (first --> last): ");
         Node current = first;
         while (current != null) {
             current.displayNode();
@@ -121,7 +121,7 @@ public class DoublyLinkedList {
     }
 
     public void displayBackward() {
-        System.out.println("List (first --> last): ");
+        System.out.print("List (last --> first): ");
         Node current = last;
         while (current != null) {
             current.displayNode();
