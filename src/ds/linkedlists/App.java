@@ -25,6 +25,7 @@ public class App {
 
     public static int listLength(Node aNode) {
         int counter = 0;
+
         while (aNode != null) {
             counter++;
             aNode = aNode.next;
