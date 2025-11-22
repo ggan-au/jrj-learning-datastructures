@@ -1,63 +1,65 @@
 package algo.mergesort;
 
+
 import java.util.Arrays;
 
 public class MergeSort {
 
-    public static void sort(int[] inputArray) {
-        sort(inputArray, 0, inputArray.length-1);
-    }
-
-    public static void sort(int[] inputArray, int start, int end) {
-        if (start >= end) {
+    public static void mergeSort(int[] inputArray) {
+        int inputLength = inputArray.length;
+        //if only 1 element return;
+        if (inputLength < 2) {
             return;
         }
-        int mid = (start + end) / 2;
-        sort(inputArray, start, mid); // sort left half
-        sort(inputArray, mid+1, end); // sort right half
-        merge(inputArray, start, mid, end); // merge sorted results into the inputArray
-        System.out.println("After merge: " + Arrays.toString(inputArray));
+
+        //create arrays
+        int midPoint = inputLength / 2;
+        int[] leftSide = new int[midPoint];
+        int[] rightSide = new int[inputLength - midPoint]; //9 - 4 = 5
+
+        //Fill leftHalf
+        for (int i = 0; i < leftSide.length; i++) {
+            leftSide[i] = inputArray[i];
+        }
+
+        //Fill rightHalf
+        for (int i = 0; i < rightSide.length; i++) {
+            rightSide[i] = inputArray[midPoint + i];
+        }
+
+        //call recursive methods
+        mergeSort(leftSide);
+        mergeSort(rightSide);
+        merge(inputArray, leftSide, rightSide);
+
     }
 
-    public static void merge(int[] inputArray, int start, int mid, int end) {
-        System.out.println("Start: " + start + " Mid: " + mid + " End: " + end);
-        int left_cnt = mid - start + 1; //0 - 0 + 1 = 1
-        int right_cnt = end - mid; //1 - 0 = 1
-        System.out.println("left: " + left_cnt + " right: " + right_cnt);
 
-        //Initialize both Left and Right arrays + Plus one additional slot for the large number at the end of the array
-        int[] L = new int[left_cnt + 1];
-        int[] R = new int[right_cnt + 1];
+    public static void merge(int[] inputArray, int[] leftHalf, int[] rightHalf) {
+        //get array sizes for left and right half
+        int leftSize = leftHalf.length;
+        int righSize = rightHalf.length;
 
-        //Fill left array with values
-        for (int i = 0; i < left_cnt; i++) {
-            System.out.println("Copying inputArray[" + (start + i) + "] into L[" + i + "]");
-            L[i] = inputArray[start + i]; // should I really -1 here - index out of bounds on index 0?
-        }
-
-        //Fill right array with values
-        for (int i = 0; i < right_cnt; i++) {
-            System.out.println("Copying inputArray[" + (mid + i + 1) + "] into R[" + i + "]");
-            R[i] = inputArray[mid + i + 1];
-        }
-
-        //Ensure last slot of array is the largest possible number;
-        L[left_cnt] = Integer.MAX_VALUE;
-        R[right_cnt] = Integer.MAX_VALUE;
-
-        System.out.println("LEFT: " + Arrays.toString(L));
-        System.out.println("LEFT: " + Arrays.toString(R));
-
-        int i = 0, j = 0;
-        int totalElements = end - start + 1;
-        for (int k = 0; k < totalElements; k++) {
-            if (L[i] < R[j]) {
-                inputArray[start + k] = L[i];
-                i++;
+        //Sort from lowest to highest into inputArra - all in one while loop. Remember to set i,j,k
+        int i = 0, j = 0, k =0;
+        while (i < leftSize && j < righSize) {
+            if (leftHalf[i] < rightHalf[j]) {
+                inputArray[k++] = leftHalf[i++];
             } else {
-                inputArray[start + k] = R[j];
-                j++;
+                inputArray[k++] = rightHalf[j++];
             }
         }
+
+        //Check for leftovers and add them to inputArray
+        while (i < leftSize) {
+            inputArray[k++] = leftHalf[i++];
+        }
+
+        while (j < righSize) {
+            inputArray[k++] = rightHalf[j++];
+        }
+
+
+
     }
 }
